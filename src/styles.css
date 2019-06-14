@@ -1,1 +1,65 @@
 /* You can add global styles to this file, and also import other style files */
+
+/*
+deeppurple-amber.css
+indigo-pink.css
+pink-bluegrey.css
+purple-green.css
+*/
+/* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
+
+/* body {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center; 
+} */
+
+.main-container {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.head {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: flex-end;
+  margin-bottom: 10px;
+}
+.middle-head {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+nav {
+  display: flex;
+  flex-flow: row wrap;
+}
+nav button {
+  flex: 1;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+mat-card {
+  margin-bottom: 10px;
+}
+mat-card.first {
+  background: #80DEEA;
+}
+mat-card.second {
+  background: #B2EBF2;
+}
+mat-card.third {
+  background: #E0F7FA;
+}
+mat-card mat-form-field {
+  width: 100%;
+}
+
+button.btn-xcode {
+  margin-bottom: 12px;
+}

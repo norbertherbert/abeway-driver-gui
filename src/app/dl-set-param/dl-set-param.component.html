@@ -1,0 +1,411 @@
+<mat-card class="second">
+  <h2 class="mat-h2">Set-Parameters Command Details</h2>
+  <mat-card-content>
+
+    <mat-form-field>
+      <mat-label>ackToken </mat-label>
+      <mat-select 
+        [(value)]="setParamAckToken"
+        matTooltip="A random 4 bits number that is sent back to the sender as acknowledgement of the downlink command."
+      >
+        <mat-option 
+          *ngFor="let v of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]" 
+          [value]=v
+        >{{"0x"+v.toString(16)}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <mat-label>Parameter IDs </mat-label>
+      <mat-select [formControl]="selectedParameterIDs" multiple>
+
+          <mat-optgroup label="Main op mode params">
+              <mat-option value="0">
+                <span [matTooltip]="C_ParamDescriptions.UL_PERIOD.description">
+                  UL_PERIOD
+                </span>
+              </mat-option>
+              <mat-option value="1">
+                <span [matTooltip]="C_ParamDescriptions.LORA_PERIOD.description">
+                  LORA_PERIOD
+                </span>
+              </mat-option>
+              <mat-option value="5">
+                <span [matTooltip]="C_ParamDescriptions.GEOLOC_SENSOR.description">
+                  GEOLOC_SENSOR
+                </span>
+              </mat-option>
+              <mat-option value="8">
+                <span [matTooltip]="C_ParamDescriptions.MOTION_NB_POS.description">
+                  MOTION_NB_POS
+                </span>
+              </mat-option>
+            </mat-optgroup>
+    
+            <mat-optgroup label="Side op mode params">
+              <mat-option value="3">
+                <span [matTooltip]="C_ParamDescriptions.PERIODIC_POS_PERIOD.description">
+                  PERIODIC_POS_PERIOD
+                </span>
+              </mat-option>
+              <mat-option value="6">
+                <span [matTooltip]="C_ParamDescriptions.GEOLOC_METHOD.description">
+                  GEOLOC_METHOD
+                </span>
+              </mat-option>
+            </mat-optgroup>
+    
+            <mat-optgroup label="GPS/LPGPS params">
+              <mat-option value="9" >
+                <span [matTooltip]="C_ParamDescriptions.GPS_TIMEOUT.description">
+                  GPS_TIMEOUT
+                </span>
+              </mat-option>
+              <mat-option value="11">
+                <span [matTooltip]="C_ParamDescriptions.GPS_EHPE.description">
+                  GPS_EHPE
+                </span>
+              </mat-option>
+              <mat-option value="12">
+                <span [matTooltip]="C_ParamDescriptions.GPS_CONVERGENCE.description">
+                  GPS_CONVERGENCE
+                </span>
+              </mat-option>
+              <mat-option value="17">
+                <span [matTooltip]="C_ParamDescriptions.GPS_STANDBY_TIMEOUT.description">
+                  GPS_STANDBY_TIMEOUT
+                </span>
+              </mat-option>
+              <mat-option value="10">
+                <span [matTooltip]="C_ParamDescriptions.AGPS_TIMEOUT.description">
+                  AGPS_TIMEOUT
+                </span>
+              </mat-option>
+            </mat-optgroup>
+    
+            <mat-optgroup label="LoRa params">
+              <mat-option value="14">
+                <span [matTooltip]="C_ParamDescriptions.TRANSMIT_STRAT.description">
+                  TRANSMIT_STRAT
+                </span>
+              </mat-option>
+              <mat-option value="18">
+                <span [matTooltip]="C_ParamDescriptions.CONFIRMED_UL_BITMAP.description">
+                  CONFIRMED_UL_BITMAP
+                </span>
+              </mat-option>
+              <mat-option value="19">
+                <span [matTooltip]="C_ParamDescriptions.CONFIRMED_UL_RETRY.description">
+                  CONFIRMED_UL_RETRY
+                </span>
+              </mat-option>
+            </mat-optgroup>
+    
+            <mat-optgroup label="BLE params">
+              <mat-option value="15">
+                <span [matTooltip]="C_ParamDescriptions.BLE_BEACON_COUNT.description">
+                  BLE_BEACON_COUNT
+                </span>
+              </mat-option>
+              <mat-option value="16">
+                <span [matTooltip]="C_ParamDescriptions.BLE_BEACON_TIMEOUT.description">
+                  BLE_BEACON_TIMEOUT
+                </span>
+              </mat-option>
+            </mat-optgroup>
+    
+            <mat-optgroup label="Misc params">
+              <mat-option value="2">
+                <span [matTooltip]="C_ParamDescriptions.PW_STAT_PERIOD.description">
+                  PW_STAT_PERIOD
+                </span>
+              </mat-option>
+              <mat-option value="13">
+                <span [matTooltip]="C_ParamDescriptions.CONFIG_FLAGS.description">
+                  CONFIG_FLAGS
+                </span>
+              </mat-option>
+            </mat-optgroup>
+          
+      </mat-select>
+    </mat-form-field>
+    <br />
+
+
+    <mat-card 
+      *ngIf="selectedParameterIDs.value && ( 
+        selectedParameterIDs.value.includes(E_ParameterId.UL_PERIOD.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.LORA_PERIOD.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.GEOLOC_SENSOR.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.MOTION_NB_POS.toString(10))
+      )"
+      class="third"
+    >
+      <h3 class="mat-h3">Main operation mode parameters</h3>
+      <mat-card-content>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.UL_PERIOD.toString(10))">
+          <input matInput type="text" placeholder="UL_PERIOD" 
+            [(ngModel)]="parameterValues[E_ParameterId.UL_PERIOD]" 
+            [matTooltip]="C_ParamDescriptions.UL_PERIOD.description"
+          >
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.LORA_PERIOD.toString(10))">
+          <input matInput type="text" placeholder="LORA_PERIOD" 
+            [(ngModel)]="parameterValues[E_ParameterId.LORA_PERIOD]"
+            [matTooltip]="C_ParamDescriptions.LORA_PERIOD.description"
+          >
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.GEOLOC_SENSOR.toString(10))">
+          <mat-label>GEOLOC_SENSOR </mat-label>
+          <mat-select 
+            [(value)]="parameterValues[E_ParameterId.GEOLOC_SENSOR]"
+            [matTooltip]="C_ParamDescriptions.GEOLOC_SENSOR.description"
+          >
+            <mat-option *ngFor="let k of geolocSensorKeys" [value]="k">
+              {{E_Param_GeolocSensor[k]}}
+            </mat-option>
+          </mat-select>
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.MOTION_NB_POS.toString(10))">
+          <input matInput type="text" placeholder="MOTION_NB_POS" 
+            [(ngModel)]="parameterValues[E_ParameterId.MOTION_NB_POS]"
+            [matTooltip]="C_ParamDescriptions.MOTION_NB_POS.description"
+          >
+          <br />
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card 
+      *ngIf="selectedParameterIDs.value && ( 
+        selectedParameterIDs.value.includes(E_ParameterId.PERIODIC_POS_PERIOD.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.GEOLOC_METHOD.toString(10))
+      )"
+      class="third"
+    >
+      <h3 class="mat-h3">Side operation mode parameters</h3>
+      <mat-card-content>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.PERIODIC_POS_PERIOD.toString(10))">
+          <input matInput type="text" placeholder="PERIODIC_POS_PERIOD" 
+            [(ngModel)]="parameterValues[E_ParameterId.PERIODIC_POS_PERIOD]"
+            [matTooltip]="C_ParamDescriptions.PERIODIC_POS_PERIOD.description"
+          >
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.GEOLOC_METHOD.toString(10))">
+          <mat-label>GEOLOC_METHOD </mat-label>
+          <mat-select 
+            [(value)]="parameterValues[E_ParameterId.GEOLOC_METHOD]"
+            [matTooltip]="C_ParamDescriptions.GEOLOC_METHOD.description"
+          >
+            <mat-option *ngFor="let k of geolocMethodKeys" [value]="k">
+              {{E_Param_GeolocMethod[k]}}
+            </mat-option>
+          </mat-select>
+          <br />
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card 
+      *ngIf="selectedParameterIDs.value && ( 
+        selectedParameterIDs.value.includes(E_ParameterId.GPS_TIMEOUT.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.GPS_EHPE.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.GPS_CONVERGENCE.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.GPS_STANDBY_TIMEOUT.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.AGPS_TIMEOUT.toString(10))
+      )"
+      class="third"
+    >
+      <h3 class="mat-h3">GPS/LPGPS parameters</h3>
+      <mat-card-content>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.GPS_TIMEOUT.toString(10))">
+          <input matInput type="text" placeholder="GPS_TIMEOUT" 
+            [(ngModel)]="parameterValues[E_ParameterId.GPS_TIMEOUT]"
+            [matTooltip]="C_ParamDescriptions.GPS_TIMEOUT.description"
+          >
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.GPS_EHPE.toString(10))">
+          <input matInput type="text" placeholder="GPS_EHPE" 
+            [(ngModel)]="parameterValues[E_ParameterId.GPS_EHPE]"
+            [matTooltip]="C_ParamDescriptions.GPS_EHPE.description"
+          >
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.GPS_CONVERGENCE.toString(10))">
+          <input matInput type="text" placeholder="GPS_CONVERGENCE" 
+            [(ngModel)]="parameterValues[E_ParameterId.GPS_CONVERGENCE]"
+            [matTooltip]="C_ParamDescriptions.GPS_CONVERGENCE.description"
+          >
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.GPS_STANDBY_TIMEOUT.toString(10))">
+          <input matInput type="text" placeholder="GPS_STANDBY_TIMEOUT" 
+            [(ngModel)]="parameterValues[E_ParameterId.GPS_STANDBY_TIMEOUT]"
+            [matTooltip]="C_ParamDescriptions.GPS_STANDBY_TIMEOUT.description"
+          >
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.AGPS_TIMEOUT.toString(10))">
+          <input matInput type="text" placeholder="AGPS_TIMEOUT" 
+            [(ngModel)]="parameterValues[E_ParameterId.AGPS_TIMEOUT]"
+            [matTooltip]="C_ParamDescriptions.AGPS_TIMEOUT.description"
+          >
+          <br />
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card 
+      *ngIf="selectedParameterIDs.value && ( 
+        selectedParameterIDs.value.includes(E_ParameterId.TRANSMIT_STRAT.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.CONFIRMED_UL_BITMAP.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.CONFIRMED_UL_RETRY.toString(10))
+      )"
+      class="third"
+    >
+      <h3 class="mat-h3">LoRa parameters</h3>
+      <mat-card-content>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.TRANSMIT_STRAT.toString(10))">
+          <mat-label>TRANSMIT_STRAT </mat-label>
+          <mat-select 
+            [(value)]="parameterValues[E_ParameterId.TRANSMIT_STRAT]"
+            [matTooltip]="C_ParamDescriptions.TRANSMIT_STRAT.description"
+          >
+            <mat-option *ngFor="let k of transmitStratKeys" [value]="k">
+              {{E_Param_TransmitStrat[k]}}
+            </mat-option>
+          </mat-select>
+          <br />
+        </mat-form-field>
+
+        <div *ngIf="selectedParameterIDs.value.includes(E_ParameterId.CONFIRMED_UL_BITMAP.toString(10))">
+          <mat-label [matTooltip]="C_ParamDescriptions.CONFIRMED_UL_BITMAP.description">
+            CONFIRMED_UL_BITMAP
+          </mat-label>
+          <section>
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP].FramePending">
+              FramePending
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP].Position">
+              Position
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP].EnergyStatus">
+              EnergyStatus
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP].HeartBeat">
+              HeartBeat
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP].ActivityOrConfig">
+              ActivityOrConfig
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP].Shutdown">
+              Shutdown
+            </mat-checkbox><br />
+          </section>
+        </div>
+
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.CONFIRMED_UL_RETRY.toString(10))">
+          <input matInput type="text" placeholder="CONFIRMED_UL_RETRY" 
+            [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_RETRY]"
+            [matTooltip]="C_ParamDescriptions.CONFIRMED_UL_RETRY.description"
+          >
+          <br />
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card 
+      *ngIf="selectedParameterIDs.value && ( 
+        selectedParameterIDs.value.includes(E_ParameterId.BLE_BEACON_COUNT.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.BLE_BEACON_TIMEOUT.toString(10))
+      )"
+      class="third"
+    >
+      <h3 class="mat-h3">BLE parameters</h3>
+      <mat-card-content>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.BLE_BEACON_COUNT.toString(10))">
+          <input matInput type="text" placeholder="BLE_BEACON_COUNT" 
+            [(ngModel)]="parameterValues[E_ParameterId.BLE_BEACON_COUNT]"
+            [matTooltip]="C_ParamDescriptions.BLE_BEACON_COUNT.description"
+          >
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.BLE_BEACON_TIMEOUT.toString(10))">
+          <input matInput type="text" placeholder="BLE_BEACON_TIMEOUT" 
+            [(ngModel)]="parameterValues[E_ParameterId.BLE_BEACON_TIMEOUT]"
+            [matTooltip]="C_ParamDescriptions.BLE_BEACON_TIMEOUT.description"
+          >
+          <br />
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card 
+      *ngIf="selectedParameterIDs.value && ( 
+        selectedParameterIDs.value.includes(E_ParameterId.PW_STAT_PERIOD.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.CONFIG_FLAGS.toString(10))
+      )"
+      class="third"
+    >
+      <h3 class="mat-h3">Miscellaneous parameters</h3>
+      <mat-card-content>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.PW_STAT_PERIOD.toString(10))">
+          <input matInput type="text" placeholder="PW_STAT_PERIOD" 
+            [(ngModel)]="parameterValues[E_ParameterId.PW_STAT_PERIOD]"
+            [matTooltip]="C_ParamDescriptions.PW_STAT_PERIOD.description"
+          >
+          <br />
+        </mat-form-field>
+        <div *ngIf="selectedParameterIDs.value.includes(E_ParameterId.CONFIG_FLAGS.toString(10))">
+          <mat-label [matTooltip]="C_ParamDescriptions.CONFIG_FLAGS.description">
+            CONFIG_FLAGS
+          </mat-label>
+          <section>
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].LedBlinksOnGPSFix">
+              LedBlinksOnGPSFix
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].WiFiScanWhenGeolocStarts">
+              WiFiScanWhenGeolocStarts
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].BLEAdvertisingActive">
+              BLEAdvertisingActive
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].WiFiPayloadCyphered">
+                WiFiPayloadCyphered
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].ConfigReqsAcknoledged">
+                ConfigReqsAcknoledged
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].DoubleShortButtonPressForSOS">
+                DoubleShortButtonPressForSOS
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].LongButtonPressToSwitchOff">
+                LongButtonPressToSwitchOff
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].FramePendingMechanismActive">
+                FramePendingMechanismActive
+            </mat-checkbox><br />
+          </section>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="second">
+    <h2 class="mat-h2">Encode Set-Parameters Command</h2>
+    <mat-card-content>
+      <button mat-stroked-button color="primary" (click)="setParamEncode()" class="btn-xcode">Encode</button>
+      <mat-form-field>
+        <mat-label>Encoded Command</mat-label>
+        <input matInput readonly type="text" [(ngModel)]="setParamEncoded">
+        <mat-hint>Send this as a LoRaWAN downlink message to FPort=2 of the device.</mat-hint>
+      </mat-form-field>
+  </mat-card-content>
+</mat-card>

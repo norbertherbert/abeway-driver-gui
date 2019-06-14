@@ -1,0 +1,70 @@
+<mat-card class="first">
+  <mat-card-title>Decode uplink message</mat-card-title>
+  <mat-card-content>
+
+    <mat-card class="second">
+
+      <mat-form-field>
+        <input [(ngModel)]="uplinkPayloadHex" matInput placeholder="UplinkPayloadHex" />
+      </mat-form-field>
+
+
+    </mat-card>
+    
+    <mat-card class="second">
+
+      <button mat-stroked-button color="primary" (click)="decodeUplink()" class="btn-xcode">Decode</button>
+      <mat-form-field>
+        <mat-label>Decoded Uplink Message</mat-label>
+        <textarea readonly
+          [(ngModel)]="decodedUplink" 
+          matInput
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="50"
+        ></textarea>
+        <button mat-button color="primary" *ngIf="decodedUplink" matSuffix mat-icon-button aria-label="Clear" (click)="decodedUplink=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+    </mat-card>
+
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="first">
+  <mat-card-title>Decode downlink message</mat-card-title>
+  <mat-card-content>
+
+    <mat-card class="second">
+
+      <mat-form-field>
+        <input [(ngModel)]="downlinkPayloadHex" matInput placeholder="DownlinkPayloadHex" />
+      </mat-form-field>
+
+    </mat-card>
+
+    <mat-card class="second">
+
+      <button mat-stroked-button color="primary" (click)="decodeDownlink()" class="btn-xcode">Decode</button>
+      <mat-form-field>
+        <mat-label>Decoded Downlink Message</mat-label>
+        <textarea readonly
+          [(ngModel)]="decodedDownlink" 
+          matInput
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="50"
+        ></textarea>
+        <button mat-button *ngIf="decodedDownlink" matSuffix mat-icon-button aria-label="Clear" (click)="decodedDownlink=''">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+
+    </mat-card>
+
+  </mat-card-content>
+</mat-card>

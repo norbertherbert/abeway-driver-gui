@@ -1,0 +1,40 @@
+
+<mat-card class="first">
+  <mat-card-title>Encode downlink command</mat-card-title>
+  <mat-card-content>
+
+    <mat-form-field>
+      <mat-label >Message Type </mat-label>
+      <mat-select [(value)]="selectedDPDUType" matTooltip="Downlink message type">
+        <mat-option [value]="E_DPDUType.POSITION_ON_DEMAND">
+          <span matTooltip="Request postion.">{{'POSITION_ON_DEMAND'}}</span>
+        </mat-option>
+        <mat-option [value]="E_DPDUType.SET_MODE">
+          <span matTooltip="Set operation mode.">{{'SET_MODE'}}</span>
+        </mat-option>
+        <mat-option [value]="E_DPDUType.REQUEST_CONFIGURATION">
+          <span matTooltip="Request configuration parameters.">{{'REQUEST_CONFIGURATION'}}</span>
+        </mat-option>
+        <mat-option [value]="E_DPDUType.START_SOS_MODE">
+          <span matTooltip="Start/stop SOS mode.">{{'SOS_MODE'}}</span>
+        </mat-option>
+        <!-- <mat-option [value]="E_DPDUType.STOP_SOS_MODE">{{'STOP_SOS_MODE'}}</mat-option> -->
+        <mat-option [value]="E_DPDUType.SET_PARAM">
+          <span matTooltip="Set configuration parameters.">{{'SET_PARAM'}}</span>
+        </mat-option>
+        <mat-option [value]="E_DPDUType.DEBUG_COMMAND">
+          <span matTooltip="Send debug command.">{{'DEBUG_COMMAND'}}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <app-dl-pos-on-dem *ngIf="selectedDPDUType==E_DPDUType.POSITION_ON_DEMAND"></app-dl-pos-on-dem>
+    <app-dl-set-mode   *ngIf="selectedDPDUType==E_DPDUType.SET_MODE"></app-dl-set-mode>
+    <app-dl-req-conf   *ngIf="selectedDPDUType==E_DPDUType.REQUEST_CONFIGURATION"></app-dl-req-conf>
+    <app-dl-sos-mode   *ngIf="selectedDPDUType==E_DPDUType.START_SOS_MODE"></app-dl-sos-mode>
+    <!-- <app-dl-sos-mode   *ngIf="selectedDPDUType==E_DPDUType.STOP_SOS_MODE"></app-dl-sos-mode> -->
+    <app-dl-set-param  *ngIf="selectedDPDUType==E_DPDUType.SET_PARAM"></app-dl-set-param>
+    <app-dl-debug-cmd  *ngIf="selectedDPDUType==E_DPDUType.DEBUG_COMMAND"></app-dl-debug-cmd>
+
+  </mat-card-content>
+</mat-card>

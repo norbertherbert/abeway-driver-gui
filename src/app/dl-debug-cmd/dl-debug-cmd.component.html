@@ -1,0 +1,30 @@
+
+<mat-card class="second">
+  <h2 class="mat-h2">Debug-Command Details</h2>
+  <mat-card-content>
+    <mat-form-field>
+      <mat-label>ackToken</mat-label>
+      <mat-select 
+        [(value)]="debugCmdAckToken"
+        matTooltip="A random 4 bits number that is sent back to the sender as acknowledgement of the downlink command."
+      >
+        <mat-option 
+          *ngFor="let v of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]" 
+          [value]=v
+        >{{"0x"+v.toString(16)}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="second">
+    <h2 class="mat-h2">Encode Debug-Command</h2>
+  <mat-card-content>
+    <button mat-stroked-button color="primary" (click)="debugCmdEncode()" class="btn-xcode">Encode</button>
+    <mat-form-field>
+      <mat-label>Encoded Command</mat-label>
+      <input matInput readonly type="text" [(ngModel)]="debugCmdEncoded">
+      <mat-hint>Send this as a LoRaWAN downlink message to FPort=2 of the device.</mat-hint>
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>
