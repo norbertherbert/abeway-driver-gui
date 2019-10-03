@@ -1,19 +1,13 @@
 # AbeewayDemo
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.4.
-
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Build
+## Build for production
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Run `ng build --prod --build-optimizer --base-href /abeeway-demo/` to build the project. The build artifacts will be stored in the `dist/` directory.
+Replace `/abeeway-demo/` by the base URL of your production application.
 
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Notes
+Please note that this application is fully static. It does not use any online API. All scripts run inside your browser so that you can easily add the GUI to your existing application just by copying the content of the `dist/` folder after compliling the app with the `ng build` command.
