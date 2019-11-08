@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { createUPDU, createDPDU } from 'abeeway-driver';
 
+const UPLINK_SAMPLE = '0784f9835002050000000606000000010e000000030f00000001';
+const DOWNLINK_SAMPLE = '0b08010000025800000004b0050000000103000000001600000000';
+
 @Component({
   selector: 'app-decode',
   templateUrl: './decode.component.html',
@@ -8,35 +11,28 @@ import { createUPDU, createDPDU } from 'abeeway-driver';
 })
 export class DecodeComponent implements OnInit {
 
-  uplinkPayloadHex: string;
-  decodedUplink = '';
 
-  downlinkPayloadHex: string;
-  decodedDownlink = '';
+  direction = 'uplink';
+  payloadHex: string;
+  decodedMessage = '';
 
   constructor() { }
 
   ngOnInit() {
-    this.uplinkPayloadHex = '0784f9835002050000000606000000010e000000030f00000001';
-    this.downlinkPayloadHex = '0b0006000000020a000000030d000000161000000001';
+    this.payloadHex = UPLINK_SAMPLE;
   }
 
-  decodeUplink(): void {
+  decode(): void {
     try {
-      const pdu = createUPDU(this.uplinkPayloadHex);
-      this.decodedUplink = pdu.toJSON();
+      const pdu = (this.direction === 'uplink') ? createUPDU(this.payloadHex) : createDPDU(this.payloadHex);
+      this.decodedMessage = pdu.toJSON();
     } catch (err) {
-      this.decodedUplink = err.message;
+      this.decodedMessage = err.message;
     }
   }
 
-  decodeDownlink(): void {
-    try {
-      const pdu = createDPDU(this.downlinkPayloadHex);
-      this.decodedDownlink = pdu.toJSON();
-    } catch (err) {
-      this.decodedDownlink = err.message;
-    }
+  dirChange(): void {
+    this.payloadHex = (this.direction === 'uplink') ? UPLINK_SAMPLE : DOWNLINK_SAMPLE;
   }
 
 }

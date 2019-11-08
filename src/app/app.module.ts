@@ -7,7 +7,7 @@ import {
   MatSelectModule, MatCheckboxModule, MatButtonToggleModule, MatCardModule,
 
   MatSidenavModule, MatMenuModule, MatToolbarModule,
-  MatButtonModule,  MatTooltipModule, MatIconModule,
+  MatButtonModule, MatTooltipModule, MatIconModule,
   MatTableModule, MatSortModule, MatPaginatorModule, MatListModule,
   MatFormFieldModule, MatInputModule, MatRadioModule, MatSlideToggleModule,
   MatProgressSpinnerModule, MatAutocompleteModule,
@@ -19,26 +19,28 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DecodeComponent } from './decode/decode.component';
 import { EncodeComponent } from './encode/encode.component';
+import { ConfigureDeviceComponent } from './configure-device/configure-device.component';
 import { DlPosOnDemComponent } from './dl-pos-on-dem/dl-pos-on-dem.component';
 import { DlSetModeComponent } from './dl-set-mode/dl-set-mode.component';
 import { DlReqConfComponent } from './dl-req-conf/dl-req-conf.component';
 import { DlSosModeComponent } from './dl-sos-mode/dl-sos-mode.component';
 import { DlSetParamComponent } from './dl-set-param/dl-set-param.component';
 import { DlDebugCmdComponent } from './dl-debug-cmd/dl-debug-cmd.component';
-import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DecodeComponent,
     EncodeComponent,
+    ConfigureDeviceComponent,
     DlPosOnDemComponent,
     DlSetModeComponent,
     DlReqConfComponent,
     DlSosModeComponent,
     DlSetParamComponent,
     DlDebugCmdComponent,
-    HomeComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,7 @@ import { HomeComponent } from './home/home.component';
 
     MatSidenavModule, MatMenuModule, MatToolbarModule,
     MatButtonModule,  MatTooltipModule, MatIconModule,
-    MatTableModule, MatSortModule, MatPaginatorModule, MatListModule,
+    MatTableModule, MatButtonToggleModule, MatSortModule, MatPaginatorModule, MatListModule,
     MatFormFieldModule, MatInputModule, MatRadioModule, MatSlideToggleModule,
     MatProgressSpinnerModule, MatAutocompleteModule,
     MatSnackBarModule, MatDialogModule,

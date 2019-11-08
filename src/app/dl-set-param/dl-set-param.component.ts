@@ -56,6 +56,10 @@ export class DlSetParamComponent implements OnInit {
 
     this.parameterValues[E_ParameterId.GPS_CONVERGENCE] = 60;
     this.parameterValues[E_ParameterId.CONFIG_FLAGS] = {
+      AsymmetricBLEPairingRejected: false,
+      NewJoinReqOnLeavingOffMode:   false,
+      MotionEndMessageEnabled:      false,
+      MotionStartMessageEnabled:    false,
       LedBlinksOnGPSFix:            false,
       BLEAdvertisingActive:         false,
       WiFiScanWhenGeolocStarts:     false,
@@ -71,14 +75,28 @@ export class DlSetParamComponent implements OnInit {
 
     this.parameterValues[E_ParameterId.GPS_STANDBY_TIMEOUT] = 10;
     this.parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP] = {
-      FramePending:     false,
-      Position:         false,
-      EnergyStatus:     false,
-      HeartBeat:        false,
-      ActivityOrConfig: false,
-      Shutdown:         false,
+      FramePending:        false,
+      Position:            false,
+      EnergyStatus:        false,
+      HeartBeat:           false,
+      ActivityConfigShock: false,
+      Shutdown:            false,
     };
     this.parameterValues[E_ParameterId.CONFIRMED_UL_RETRY] = 0;
+
+
+
+    this.parameterValues[E_ParameterId.MOTION_SENSITIVITY]       = 50, // %, 0-100
+    this.parameterValues[E_ParameterId.SHOCK_DETECTION]          = 50, // %, 0-100
+    this.parameterValues[E_ParameterId.PERIODIC_ACTIVITY_PERIOD] = 1800, // s, 0 | 1800-86400
+    this.parameterValues[E_ParameterId.MOTION_DURATION]          = 120, // s, 60..3600
+
+    this.parameterValues[E_ParameterId.BLE_RSSI_FILTER]          = -50,  // -100..-40
+
+    // this.parameterValues[E_ParameterId.BLE_VERSION]              = 0xfd,
+    // this.parameterValues[E_ParameterId.FIRMWARE_VERSION]         = 0xfe,
+
+
 
     this.geolocSensorKeys = Object.keys(E_Param_GeolocSensor).filter(k => typeof E_Param_GeolocSensor[k as any] === 'string' );
 

@@ -5,26 +5,36 @@
     <img src="assets/micro-tracker.png" height="90px">
     <div class="middle-head" >
       <img src="assets/abeeway-logo.png" height="90px">
-      <span class="mat-small">CoDec tool for firmware version 1.7-3</span>
+      <span class="mat-small">Device Configuration Tool for firmware version 1.8</span>
     </div>
     <img src="assets/industrial-tracker.png" height="90px">
   </div>
 
   <nav>
+
     <button 
       mat-stroked-button color="primary" routerLinkActive="mat-accent" 
-      routerLink="/home"
-    >Home</button>
-    <button 
-      mat-stroked-button color="primary" routerLinkActive="mat-accent" 
-      routerLink="/decode"
-      matTooltip="Decode uplink/downlink LoRaWAN message payload."
-    >Decode</button>
+      routerLink="/configure"
+      matTooltip="Generate downlink messages that configure a device according to given parameters."
+    >Config</button>
+
     <button 
       mat-stroked-button color="primary" routerLinkActive="mat-accent" 
       routerLink="/encode"
       matTooltip="Encode a tracker command to be sent to the device as a LoRaWAN downlink message."
     >Encode</button>
+
+    <button 
+      mat-stroked-button color="primary" routerLinkActive="mat-accent" 
+      routerLink="/decode"
+      matTooltip="Decode uplink/downlink LoRaWAN message payload."
+    >Decode</button>
+
+    <button 
+      mat-stroked-button color="primary" routerLinkActive="mat-accent" 
+      routerLink="/about"
+    >About</button>
+
   </nav>
 
   <br />

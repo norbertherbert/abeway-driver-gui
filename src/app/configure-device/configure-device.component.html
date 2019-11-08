@@ -1,0 +1,980 @@
+
+<mat-card class="first">
+    <mat-card-title>Generate Device Configuration Commands</mat-card-title>
+</mat-card>
+
+
+<!-- 1 TEMPLATE CONFIGURATION -->
+
+<mat-card class="first">
+  <mat-card-title>0. Template configurations</mat-card-title>
+  <mat-card-content>
+
+    <div class="mat-small explanation">
+      Click on your preferred template configuration to start with!
+    </div>
+
+    <button mat-button 
+      (click)="setDefaultConfig('EXAMPLE_ACCURATE_ON_DEMAND')" 
+      [matTooltip]="EXAMPLE_ACCURATE_ON_DEMAND.description" 
+    >
+      {{EXAMPLE_ACCURATE_ON_DEMAND.title}}
+    </button>
+
+    <button mat-button
+      (click)="setDefaultConfig('EXAMPLE_ACCURATE_DAILY_PERIODIC')" 
+      [matTooltip]="EXAMPLE_ACCURATE_DAILY_PERIODIC.description" 
+    >
+      {{EXAMPLE_ACCURATE_DAILY_PERIODIC.title}}
+    </button>
+
+    <button mat-button
+      (click)="setDefaultConfig('EXAMPLE_MEDIUM_HOURLY_PERIODIC')" 
+      [matTooltip]="EXAMPLE_MEDIUM_HOURLY_PERIODIC.description" 
+    >
+      {{EXAMPLE_MEDIUM_HOURLY_PERIODIC.title}}
+    </button>
+
+    <button mat-button
+      (click)="setDefaultConfig('EXAMPLE_ACCURATE_START_STOP')" 
+      [matTooltip]="EXAMPLE_ACCURATE_START_STOP.description" 
+    >
+      {{EXAMPLE_ACCURATE_START_STOP.title}}
+    </button>
+
+    <button mat-button
+      (click)="setDefaultConfig('EXAMPLE_MOTION_TRACKING')" 
+      [matTooltip]="EXAMPLE_MOTION_TRACKING.description" 
+    >
+      {{EXAMPLE_MOTION_TRACKING.title}}
+    </button>
+
+    <button mat-button
+      (click)="setDefaultConfig('EXAMPLE_PERMANENT_TRACKING')" 
+      [matTooltip]="EXAMPLE_PERMANENT_TRACKING.description" 
+    >
+      {{EXAMPLE_PERMANENT_TRACKING.title}}
+    </button>
+
+  </mat-card-content>
+</mat-card>
+
+
+
+<!-- 1 MAIN OPERATING MODE -->
+
+<mat-card class="first">
+  <mat-card-title>1. Main operating mode</mat-card-title>
+  <mat-card-content>
+
+    <!-- Operation mode -->
+    <mat-form-field>
+      <mat-label>Operating mode: </mat-label>
+      <mat-select 
+        [(value)]="selectedOperatingMode"
+        [matTooltip]="selectedOperatingMode ? OPERATING_MODE[selectedOperatingMode].description : OPERATING_MODE_DESCRIPTION"
+      >
+        <mat-option 
+          *ngFor="let k of getKeys(OPERATING_MODE)" 
+          [value]="k"
+          [matTooltip]="OPERATING_MODE[k].description"
+        > 
+          {{OPERATING_MODE[k].title}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br />
+
+    <!-- lora_period -->
+    <mat-form-field
+      *ngIf="loraPeriodUsed()"
+    >
+      <input matInput type="text" [placeholder]="PARAMETERS.LORA_PERIOD.title" 
+        [(ngModel)]="parameters.lora_period"
+        [matTooltip]="PARAMETERS.LORA_PERIOD.description"
+      >
+      <button mat-button *ngIf="parameters.lora_period" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.lora_period=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <br />
+    </mat-form-field>
+
+    <!-- ul_period -->
+    <mat-form-field
+      *ngIf="ulPeriodUsed()"
+    >
+      <input matInput type="text" [placeholder]="PARAMETERS.UL_PERIOD.title" 
+        [(ngModel)]="parameters.ul_period" 
+        [matTooltip]="PARAMETERS.UL_PERIOD.description"
+      >
+      <button mat-button *ngIf="parameters.ul_period" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.ul_period=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <br />
+    </mat-form-field>
+
+    <!-- motion_nb_pos -->
+    <mat-form-field
+      *ngIf="motionNbPosUsed()"
+    >
+      <input matInput type="text" [placeholder]="PARAMETERS.MOTION_NB_POS.title" 
+        [(ngModel)]="parameters.motion_nb_pos"
+        [matTooltip]="PARAMETERS.MOTION_NB_POS.description"
+      >
+      <button mat-button *ngIf="parameters.motion_nb_pos" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.motion_nb_pos=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <br />
+    </mat-form-field>
+
+    <!-- geoloc_sensor -->
+    <mat-form-field
+      *ngIf="geolocSensorUsed_()"
+    >
+      <mat-label>{{PARAMETERS.GEOLOC_SENSOR.title}} </mat-label>
+      <mat-select 
+        [(value)]="parameters.geoloc_sensor"
+        [matTooltip]="parameters.geoloc_sensor ? GEOLOC_SENSOR[parameters.geoloc_sensor].description : PARAMETERS.GEOLOC_SENSOR.description"
+      >
+        <mat-option></mat-option>
+        <mat-option 
+          *ngFor="let k of getKeys(GEOLOC_SENSOR)" 
+          [value]="k"
+          [matTooltip]="GEOLOC_SENSOR[k].description"
+        >
+          {{GEOLOC_SENSOR[k].title}}
+        </mat-option>
+      </mat-select>
+      <br />
+    </mat-form-field>
+
+    <div 
+      class="mat-small explanation"
+      *ngIf="geolocSensorUsed_() || accelerometerUsed_()"
+    >
+      Remarks:
+      <ul>
+        <li
+          *ngIf="geolocSensorUsed_()"
+        >
+          {{GOTO_GEOLOC_TECHN_PARAMS}}
+        </li>
+        <li
+          *ngIf="accelerometerUsed_()"
+        >
+          {{GOTO_MOTION_DETECT_PARAMS}}
+        </li>
+      </ul>
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+
+
+<!-- 2 SIDE OPERATIONS -->
+
+<mat-card class="first">
+  <mat-card-title>2. Side operations</mat-card-title>
+  <mat-card-content>
+
+    <div class="mat-small explanation">
+      Introduction:
+      <ul>
+        <li>Beyond the selected main operation mode, the tracker can perform several side operations that can be configured in this section.</li>
+      </ul>
+    </div>
+
+    <!-- 2.1 Side operations that can be activated by configuration -->
+    
+    <mat-card class="second">
+      <h2 class="mat-h2">2.1 Side operations that can be activated by configuration</h2>
+      <mat-card-content>
+        
+        <div class="mat-small explanation">
+          Introduction:
+          <ul>
+            <li>These side operations can be turned ON and OFF independently.</li>
+          </ul>
+        </div>
+
+        <!-- 2.1.1 Periodic position reporting -->
+        <mat-card class="third">
+
+          <div class="sideop-title">
+            <h3 class="mat-h3">2.1.1 Periodic position reporting</h3> 
+            <mat-slide-toggle [(ngModel)]="periodicPosReportingON"></mat-slide-toggle>
+          </div>
+
+          <!-- priodic_pos_priod -->
+          <mat-card-content *ngIf="periodicPosReportingON">
+            <mat-form-field>
+              <input matInput type="text" [placeholder]="PARAMETERS.PERIODIC_POS_PERIOD.title" 
+                [(ngModel)]="parameters.periodic_pos_period"
+                [matTooltip]="PARAMETERS.PERIODIC_POS_PERIOD.description"
+              >
+              <button mat-button *ngIf="parameters.periodic_pos_period" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.periodic_pos_period=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <br />
+            </mat-form-field>
+
+            <!-- geoloc_method -->
+            <mat-form-field>
+              <mat-label>{{PARAMETERS.GEOLOC_METHOD.title}}</mat-label>
+              <mat-select 
+                [(value)]="parameters.geoloc_method"
+                [matTooltip]="parameters.geoloc_method ? GEOLOC_METHOD[parameters.geoloc_method].description : PARAMETERS.GEOLOC_METHOD.description"
+              >
+                <mat-option></mat-option>
+                <mat-option 
+                  *ngFor="let k of getKeys(GEOLOC_METHOD)" 
+                  [value]="k"
+                  [matTooltip]="GEOLOC_METHOD[k].description"
+                >
+                  {{GEOLOC_METHOD[k].title}}
+                </mat-option>
+              </mat-select>
+              <br />
+            </mat-form-field>
+
+            <div class="mat-small explanation">
+              Remarks:
+              <ul>
+                <li>{{GOTO_GEOLOC_TECHN_PARAMS}}</li>
+              </ul>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+
+        
+        <!-- 2.1.2 priodic_activity_priod -->
+        <mat-card class="third">
+
+          <div class="sideop-title">
+            <h3 class="mat-h3">2.1.2 Periodic activity reporting</h3> 
+            <mat-slide-toggle [(ngModel)]="periodicActivityReportingON"></mat-slide-toggle>
+          </div>
+
+          <mat-card-content *ngIf="periodicActivityReportingON">
+
+            <!-- periodic_pos_period -->
+            <mat-form-field>
+              <input matInput type="text" [placeholder]="PARAMETERS.PERIODIC_ACTIVITY_PERIOD.title" 
+                [(ngModel)]="parameters.periodic_activity_period"
+                [matTooltip]="PARAMETERS.PERIODIC_ACTIVITY_PERIOD.description"
+              >
+              <button mat-button *ngIf="parameters.periodic_activity_period" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.periodic_activity_period=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <br />
+            </mat-form-field>
+
+            <!-- geoloc_method -->
+            <mat-form-field>
+              <mat-label>{{PARAMETERS.GEOLOC_METHOD.title}}</mat-label>
+              <mat-select 
+                [(value)]="parameters.geoloc_method"
+                [matTooltip]="parameters.geoloc_method ? GEOLOC_METHOD[parameters.geoloc_method].description : PARAMETERS.GEOLOC_METHOD.description"
+              >
+                <mat-option></mat-option>
+                <mat-option 
+                  *ngFor="let k of getKeys(GEOLOC_METHOD)" 
+                  [value]="k"
+                  [matTooltip]="GEOLOC_METHOD[k].description"
+                >
+                  {{GEOLOC_METHOD[k].title}}
+                </mat-option>
+              </mat-select>
+              <br />
+            </mat-form-field>
+
+            <div class="mat-small explanation">
+              Remarks:
+              <ul>
+                <li>{{GOTO_MOTION_DETECT_PARAMS}}</li>
+                <li>{{GOTO_GEOLOC_TECHN_PARAMS}}</li>
+              </ul>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+
+        
+        <!-- 2.1.3 Shock detection -->
+        <mat-card class="third">
+
+          <div class="sideop-title">
+            <h3 class="mat-h3">2.1.3 Shock detection</h3> 
+            <mat-slide-toggle [(ngModel)]="shockDetectionON"></mat-slide-toggle>
+          </div>
+
+          <mat-card-content *ngIf="shockDetectionON">
+
+            <!-- shock_detection -->
+            <mat-form-field>
+              <input matInput type="text" [placeholder]="PARAMETERS.SHOCK_DETECTION.title" 
+                [(ngModel)]="parameters.shock_detection"
+                [matTooltip]="PARAMETERS.SHOCK_DETECTION.description"
+              >
+              <button mat-button *ngIf="parameters.shock_detection" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.shock_detection=''">
+                <mat-icon>close</mat-icon>
+              </button>
+              <br />
+            </mat-form-field>
+
+            <div class="mat-small explanation">
+              Remarks:
+              <ul>
+                <li>{{GOTO_MOTION_DETECT_PARAMS}}</li>
+              </ul>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+
+      </mat-card-content>
+    </mat-card>
+
+
+    <!-- 2.2 Side operations that can be triggered by user actions -->
+
+    <mat-card class="second">
+      <h2 class="mat-h2">2.2 Side operations that can be triggered by user actions</h2>
+      <mat-card-content>
+
+        <div class="mat-small explanation">
+          Introduction:
+          <ul>
+            <li>These side operations can be triggered either by sending a downlink command to the device or by pressing the button of the device.</li>
+          </ul>
+        </div>
+        
+        <!-- 2.2.1 SOS/Alert operation mode -->
+        <mat-card class="third">
+          <h3 class="mat-h3">2.2.1 SOS/Alert operation mode</h3>
+          <mat-card-content>
+
+            <div class="mat-small explanation">
+              Introduction:
+              <ul>
+                <li>SOS mode can be triggered either by a downlink command or by a double short button press (if enabled).</li>
+                <li>The geolocation technology applied in SOS mode is defined by the <i>geoloc_sensor</i> parameter.</li>
+                <li>The geolocation technology applied in Alert mode is defined by the <i>geoloc_method</i> parameter.</li>
+              </ul>
+            </div>
+
+            <!-- Double short button press -->
+            <div>
+              <mat-label>Action on double short button press:</mat-label>
+              <div style="margin: 10px 10px 15px 10px;">
+                <mat-radio-group aria-label="Select an option" [(ngModel)]="parameters.config_flags.DoubleShortButtonPressForSOS">
+                    <mat-radio-button value="true">Start SOS operating mode</mat-radio-button>&nbsp;&nbsp;
+                    <mat-radio-button value="">Start Alert operating mode</mat-radio-button><br />
+                </mat-radio-group>
+              </div>
+            </div>
+
+            <!-- geoloc_sensor -->
+            <mat-form-field>
+              <mat-label>Geoloc technology used in "SoS mode" (geoloc_sensor) </mat-label>
+              <mat-select 
+                [(value)]="parameters.geoloc_sensor"
+                [matTooltip]="parameters.geoloc_sensor ? GEOLOC_SENSOR[parameters.geoloc_sensor].description : PARAMETERS.GEOLOC_SENSOR.description"
+              >
+                <mat-option></mat-option>
+                <mat-option 
+                  *ngFor="let k of getKeys(GEOLOC_SENSOR)" 
+                  [value]="k"
+                  [matTooltip]="GEOLOC_SENSOR[k].description"
+                >
+                  {{GEOLOC_SENSOR[k].title}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <!-- geoloc_method -->
+            <mat-form-field
+              *ngIf="!parameters.config_flags.DoubleShortButtonPressForSOS"
+            >
+              <mat-label>Geoloc technology used in "Alert mode" (geoloc_method)</mat-label>
+              <mat-select 
+                [(value)]="parameters.geoloc_method"
+                [matTooltip]="parameters.geoloc_method ? GEOLOC_METHOD[parameters.geoloc_method].description : PARAMETERS.GEOLOC_METHOD.description"
+              >
+                <mat-option></mat-option>
+                <mat-option 
+                  *ngFor="let k of getKeys(GEOLOC_METHOD)" 
+                  [value]="k"
+                  [matTooltip]="GEOLOC_METHOD[k].description"
+                >
+                  {{GEOLOC_METHOD[k].title}}
+                </mat-option>
+              </mat-select>
+              <br />
+            </mat-form-field>
+
+            <div class="mat-small explanation">
+              Remarks:
+              <ul>
+                <li>{{GOTO_GEOLOC_TECHN_PARAMS}}</li>
+              </ul>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+
+
+        <!-- 2.2.2 Position on demand -->
+        <mat-card class="third">
+          <h3 class="mat-h3">2.2.2 Position on demand</h3>
+          <mat-card-content>
+
+            <!-- geoloc_method -->
+            <mat-form-field>
+              <mat-label>{{PARAMETERS.GEOLOC_METHOD.title}}</mat-label>
+              <mat-select 
+                [(value)]="parameters.geoloc_method"
+                [matTooltip]="parameters.geoloc_method ? GEOLOC_METHOD[parameters.geoloc_method].description : PARAMETERS.GEOLOC_METHOD.description"
+              >
+                <mat-option></mat-option>
+                <mat-option 
+                  *ngFor="let k of getKeys(GEOLOC_METHOD)" 
+                  [value]="k"
+                  [matTooltip]="GEOLOC_METHOD[k].description"
+                >
+                  {{GEOLOC_METHOD[k].title}}
+                </mat-option>
+              </mat-select>
+              <br />
+            </mat-form-field>
+
+            <div class="mat-small explanation">
+              Remarks:
+              <ul>
+                <li>{{GOTO_GEOLOC_TECHN_PARAMS}}</li>
+              </ul>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+
+      </mat-card-content>
+    </mat-card>
+
+  </mat-card-content>
+</mat-card>
+
+
+
+<!-- 3 GEOLOCATION TECHNOLOGY PARAMETERS -->
+
+<mat-card class="first">
+  <mat-card-title>3. Geolocation technology parameters</mat-card-title>
+  <mat-card-content>
+
+
+    <!-- 3.1 GPS parameters -->
+ 
+    <mat-card 
+      class="second"
+      *ngIf="gpsUsed()"
+    >
+      <h2 class="mat-h2">3.1 GPS parameters</h2>
+      <mat-card-content>
+
+        <!-- gps_timeout -->
+        <mat-form-field>
+          <input matInput type="text" [placeholder]="PARAMETERS.GPS_TIMEOUT.title" 
+            [(ngModel)]="parameters.gps_timeout"
+            [matTooltip]="PARAMETERS.GPS_TIMEOUT.description"
+          >
+          <button mat-button *ngIf="parameters.gps_timeout" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.gps_timeout=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <br />
+        </mat-form-field>
+        
+        <!-- gps_convergence -->
+        <mat-form-field>
+          <input matInput type="text" [placeholder]="PARAMETERS.GPS_CONVERGENCE.title" 
+            [(ngModel)]="parameters.gps_convergence"
+            [matTooltip]="PARAMETERS.GPS_CONVERGENCE.description"
+          >
+          <button mat-button *ngIf="parameters.gps_convergence" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.gps_convergence=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <br />
+        </mat-form-field>
+        
+        <!-- gps_standby_timeout -->
+        <mat-form-field>
+          <input matInput type="text" [placeholder]="PARAMETERS.GPS_STANDBY_TIMEOUT.title" 
+            [(ngModel)]="parameters.gps_standby_timeout"
+            [matTooltip]="PARAMETERS.GPS_STANDBY_TIMEOUT.description"
+          >
+          <button mat-button *ngIf="parameters.gps_standby_timeout" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.gps_standby_timeout=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <br />
+        </mat-form-field>
+
+        <!-- gps_ehpe -->
+        <mat-form-field>
+          <input matInput type="text" [placeholder]="PARAMETERS.GPS_EHPE.title" 
+            [(ngModel)]="parameters.gps_ehpe"
+            [matTooltip]="PARAMETERS.GPS_EHPE.description"
+          >
+          <button mat-button *ngIf="parameters.gps_ehpe" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.gps_ehpe=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <br />
+        </mat-form-field>
+
+        <!-- config_flags.LedBlinksOnGPSFix -->
+        <div style="margin: 10px 10px 10px 0px;">
+          <mat-checkbox [(ngModel)]="parameters.config_flags.LedBlinksOnGPSFix">
+            LED blinks on GPS fix
+          </mat-checkbox><br />
+        </div>
+
+        <!-- config_flags.WiFiScanWhenGeolocStarts -->
+        <div style="margin: 20px 0px 0px 0px">
+          <mat-label>Action when GPS/LPGPS geolocation starts:</mat-label>
+          <div style="margin: 10px 10px 10px 10px;">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="parameters.config_flags.WiFiScanWhenGeolocStarts">
+              <mat-radio-button value="">"Geoloc Start" event message</mat-radio-button>&nbsp;&nbsp;
+              <mat-radio-button value="true">"WiFi Scan", then "Scan Result" msg</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+
+    <!-- 3.2 Low Power GPS parameters -->
+ 
+    <mat-card 
+      class="second"
+      *ngIf="lpgpsUsed()"
+    >
+      <h2 class="mat-h2">3.2 Low Power GPS parameters</h2>
+      <mat-card-content>
+
+        <!-- agps_timeout -->
+        <mat-form-field>
+          <input matInput type="text" [placeholder]="PARAMETERS.AGPS_TIMEOUT.title" 
+            [(ngModel)]="parameters.agps_timeout"
+            [matTooltip]="PARAMETERS.AGPS_TIMEOUT.description"
+          >
+          <button mat-button *ngIf="parameters.agps_timeout" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.agps_timeout=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <br />
+        </mat-form-field>
+
+        <!-- config_flags.WiFiScanWhenGeolocStarts -->
+        <div>
+          <mat-label>Action when GPS/LPGPS geolocation starts:</mat-label>
+          <div style="margin: 10px 10px 10px 10px;">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="parameters.config_flags.WiFiScanWhenGeolocStarts">
+              <mat-radio-button value="">"Geoloc Start" event message</mat-radio-button>&nbsp;&nbsp;
+              <mat-radio-button value="true">"WiFi Scan", then "WiFi Scan Result" message</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+
+    <!-- 3.3 WiFi parameters -->
+ 
+    <mat-card 
+      class="second"
+      *ngIf="wifiUsed()"
+    >
+      <h2 class="mat-h2">3.3 WiFi parameters</h2>
+      <mat-card-content>
+
+      <!-- config_flags.WiFiPayloadCyphered -->
+      <div>
+        <section>
+          <mat-checkbox [(ngModel)]="parameters.config_flags.WiFiPayloadCyphered">
+            WiFi payload cyphered
+          </mat-checkbox><br />
+        </section>        
+      </div>
+      
+      </mat-card-content>
+    </mat-card>
+
+
+    <!-- 3.4 BLE parameters -->
+ 
+    <mat-card 
+      class="second"
+      *ngIf = "bleUsed()"
+    >
+      <h2 class="mat-h2">3.4 BLE parameters</h2>
+      <mat-card-content>
+        
+        <!-- ble_beacon_count -->
+        <mat-form-field>
+          <input matInput type="text" [placeholder]="PARAMETERS.BLE_BEACON_COUNT.title" 
+            [(ngModel)]="parameters.ble_beacon_count"
+            [matTooltip]="PARAMETERS.BLE_BEACON_COUNT.description"
+          >
+          <button mat-button *ngIf="parameters.ble_beacon_count" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.ble_beacon_count=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <br />
+        </mat-form-field>
+    
+        <!-- ble_beacon_timeout -->
+        <mat-form-field>
+          <input matInput type="text" [placeholder]="PARAMETERS.BLE_BEACON_TIMEOUT.title" 
+            [(ngModel)]="parameters.ble_beacon_timeout"
+            [matTooltip]="PARAMETERS.BLE_BEACON_TIMEOUT.description"
+          >
+          <button mat-button *ngIf="parameters.ble_beacon_timeout" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.ble_beacon_timeout=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <br />
+        </mat-form-field>
+    
+        <!-- ble_rssi_filter -->
+        <mat-form-field
+          *ngIf="bleRSSIFilterUsed()"
+        >
+          <input matInput type="text" [placeholder]="PARAMETERS.BLE_RSSI_FILTER.title" 
+            [(ngModel)]="parameters.ble_rssi_filter"
+            [matTooltip]="PARAMETERS.BLE_RSSI_FILTER.description"
+          >
+          <button mat-button *ngIf="parameters.ble_rssi_filter" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.ble_rssi_filter=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <br />
+        </mat-form-field>
+        
+      </mat-card-content>
+    </mat-card>
+  
+  </mat-card-content>
+</mat-card>
+
+
+
+<!-- 4 MOTION DETECTION TECHNOLOGY PARAMETERS -->
+
+<mat-card 
+  class="first"
+>
+  <mat-card-title>4. Motion detection technology parameters</mat-card-title>
+  <mat-card-content>
+
+    <!-- motion_sensitivity -->
+    <mat-form-field>
+      <input matInput type="text" [placeholder]="PARAMETERS.MOTION_SENSITIVITY.title" 
+        [(ngModel)]="parameters.motion_sensitivity"
+        [matTooltip]="PARAMETERS.MOTION_SENSITIVITY.description"
+      >
+      <button mat-button *ngIf="parameters.motion_sensitivity" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.motion_sensitivity=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <br />
+    </mat-form-field>
+
+    <!-- motion duration -->
+    <mat-form-field>
+      <input matInput type="text" [placeholder]="PARAMETERS.MOTION_DURATION.title" 
+        [(ngModel)]="parameters.motion_duration"
+        [matTooltip]="PARAMETERS.MOTION_DURATION.description"
+      >
+      <button mat-button *ngIf="parameters.motion_duration" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.motion_duration=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <br />
+    </mat-form-field>
+
+    <div>
+      <section>
+        <mat-checkbox [(ngModel)]="parameters.config_flags.MotionStartMessageEnabled">
+          "Motion Start" events enabled
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.MotionEndMessageEnabled">
+          "Motion End" events enabled
+        </mat-checkbox><br />
+      </section>
+    </div>
+
+  </mat-card-content>
+</mat-card>
+
+
+
+<!-- 5 DEVICE I/O PARAMETERS -->
+
+<mat-card 
+  class="first"
+>
+  <mat-card-title>5. Device I/O parameters</mat-card-title>
+  <mat-card-content>
+
+
+    <!-- 5.1 LoRaWAN connectivity parameters -->
+
+    <mat-card 
+      class="second"
+    >
+      <h2 class="mat-h2">5.1 LoRaWAN connectivity parameters</h2>
+      <mat-card-content>
+
+        <!-- transmit_strat -->
+        <mat-form-field>
+          <mat-label>{{PARAMETERS.TRANSMIT_STRAT.title}} </mat-label>
+          <mat-select 
+            [(value)]="parameters.transmit_strat"
+            [matTooltip]="parameters.transmit_strat ? TRANSMIT_STRAT[parameters.transmit_strat].description : PARAMETERS.TRANSMIT_STRAT.description"
+          >
+            <mat-option></mat-option>
+            <mat-option 
+              *ngFor="let k of getKeys(TRANSMIT_STRAT)" 
+              [value]="k"
+              [matTooltip]="TRANSMIT_STRAT[k].description"
+            >
+              {{TRANSMIT_STRAT[k].title}}
+            </mat-option>
+          </mat-select>
+          <br />
+        </mat-form-field>
+
+        <!-- config_flags (partial set) -->
+        <div>
+          <section>
+            <mat-checkbox [(ngModel)]="parameters.config_flags.FramePendingMechanismActive">
+              Enable the "Frame pending" mechanism
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameters.config_flags.ConfigReqsAcknoledged">
+              Config req messages are acknowledged
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameters.config_flags.NewJoinReqOnLeavingOffMode">
+              New JoinReq msg on leaving OFF mode
+            </mat-checkbox><br />
+          </section>
+        </div>
+        <br />
+
+        <!-- confirmed_ul_bitmap -->
+        <div>
+          <mat-label>Send "Confirmed" LoRa uplink messages for the following mesage types:</mat-label>
+          <section style="margin:10px 10px 10px 10px;">
+            <mat-checkbox [(ngModel)]="parameters.confirmed_ul_bitmap.FramePending">
+              Frame pending messages
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameters.confirmed_ul_bitmap.Position">
+              Position messages
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameters.confirmed_ul_bitmap.EnergyStatus">
+              Energy status messages
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameters.confirmed_ul_bitmap.HeartBeat">
+              Heart beat messages
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameters.confirmed_ul_bitmap.ActivityConfigShock">
+              Activity, Config, Shock detection
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameters.confirmed_ul_bitmap.Shutdown">
+              Shutdown messages
+            </mat-checkbox><br />
+          </section>
+        </div>
+
+        <!-- confirmed_ul_retry -->
+        <mat-form-field
+          *ngIf="confirmedUlUsed()"
+        >
+          <input matInput type="text" [placeholder]="PARAMETERS.CONFIRMED_UL_RETRY.title" 
+            [(ngModel)]="parameters.confirmed_ul_retry"
+            [matTooltip]="PARAMETERS.CONFIRMED_UL_RETRY.description"
+          >
+          <button mat-button *ngIf="parameters.confirmed_ul_retry" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.confirmed_ul_retry=''">
+            <mat-icon>close</mat-icon>
+          </button>
+          <br />
+        </mat-form-field>
+
+
+      </mat-card-content>
+    </mat-card>
+
+
+    <!-- 5.2 BLE connectivity parameters -->
+
+    <mat-card 
+      class="second"
+    >
+      <h2 class="mat-h2">5.2 BLE connectivity parameters</h2>
+      <mat-card-content>
+
+        <!-- config_flags (partial set) -->
+        <div>
+          <section>
+            <mat-checkbox [(ngModel)]="parameters.config_flags.BLEAdvertisingActive">
+              Enable BLE advertising
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameters.config_flags.AsymmetricBLEPairingRejected">
+              Disable asymmetric BLE pairing
+            </mat-checkbox><br />
+          </section>        
+        </div>
+
+      </mat-card-content>
+    </mat-card>
+
+
+    <!-- 5.3 Local I/O parameters -->
+
+    <mat-card 
+      class="second"
+    >
+      <h2 class="mat-h2">5.3 Local I/O parameters</h2>
+      <mat-card-content>
+
+      <!-- config_flags (partial set) -->  
+      <div>
+        <section>
+          <mat-checkbox [(ngModel)]="parameters.config_flags.LongButtonPressToSwitchOff">
+            Long button press switches the device off
+          </mat-checkbox><br />
+          <mat-checkbox [(ngModel)]="parameters.config_flags.LedBlinksOnGPSFix">
+            LED blinks on GPS fix
+          </mat-checkbox><br />
+        </section>        
+      </div>
+      <br />
+
+      <!-- config_flags.DoubleShortButtonPressForSOS -->
+      <div>
+        <mat-label>Action on double short button press:</mat-label>
+        <div style="margin: 10px 10px 10px 10px;">
+          <mat-radio-group aria-label="Select an option" [(ngModel)]="parameters.config_flags.DoubleShortButtonPressForSOS">
+              <mat-radio-button value="true">Start SOS operating mode</mat-radio-button>&nbsp;&nbsp;
+              <mat-radio-button value="">Start Alert operating mode</mat-radio-button><br />
+          </mat-radio-group>
+        </div>
+      </div>
+
+      </mat-card-content>
+    </mat-card>
+
+
+  </mat-card-content>
+</mat-card>
+
+
+<!-- 6 MISCELLANEOUS PARAMETERS -->
+
+<mat-card 
+  class="first"
+>
+  <mat-card-title>6. Miscellaneous parameters</mat-card-title>
+  <mat-card-content>
+
+    <mat-form-field>
+      <input matInput type="text" [placeholder]="PARAMETERS.PW_STAT_PERIOD.title" 
+        [(ngModel)]="parameters.pw_stat_period"
+        [matTooltip]="PARAMETERS.PW_STAT_PERIOD.description"
+      >
+      <button mat-button *ngIf="parameters.pw_stat_period" matSuffix mat-icon-button aria-label="Clear" (click)="parameters.pw_stat_period=''">
+        <mat-icon>close</mat-icon>
+      </button>
+      <br />
+    </mat-form-field>
+
+<!--    
+    <div>
+      <mat-label [matTooltip]="PARAMETERS.CONFIG_FLAGS.description">
+        {{PARAMETERS.CONFIG_FLAGS.title}}
+      </mat-label>
+      <br/>
+      <section>
+        <mat-checkbox [(ngModel)]="parameters.config_flags.AsymmetricBLEPairingRejected">
+          AsymmetricBLEPairingRejected
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.NewJoinReqOnLeavingOffMode">
+          NewJoinReqOnLeavingOffMode
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.MotionEndMessageEnabled">
+          MotionEndMessageEnabled
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.MotionStartMessageEnabled">
+          MotionStartMessageEnabled
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.LedBlinksOnGPSFix">
+          LedBlinksOnGPSFix
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.WiFiScanWhenGeolocStarts">
+          WiFiScanWhenGeolocStarts
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.BLEAdvertisingActive">
+          BLEAdvertisingActive
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.WiFiPayloadCyphered">
+          WiFiPayloadCyphered
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.ConfigReqsAcknoledged">
+          ConfigReqsAcknoledged
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.DoubleShortButtonPressForSOS">
+          DoubleShortButtonPressForSOS
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.LongButtonPressToSwitchOff">
+          LongButtonPressToSwitchOff
+        </mat-checkbox><br />
+        <mat-checkbox [(ngModel)]="parameters.config_flags.FramePendingMechanismActive">
+          FramePendingMechanismActive
+        </mat-checkbox><br />
+      </section>
+      <br />
+    </div>
+-->
+
+  </mat-card-content>
+</mat-card>
+
+
+<!-- 6 GENERATE CONFIGURATION COMMANDS -->
+   
+<mat-card class="first">
+    <mat-card-title>7. Generate configuration commands</mat-card-title>
+    <mat-card-content>
+
+      <!-- Generate configuration commands -->
+      <br />
+      <button mat-stroked-button color="primary" (click)="generateConfigCommands()" class="btn-xcode">Generate configuration commands</button>
+      
+      <!-- Generated configuration commands -->
+      <mat-form-field>
+        <mat-label>Generated Commands</mat-label>
+        <!-- <input matInput readonly type="text" [(ngModel)]="configCommands"> -->
+
+        <textarea readonly
+          [(ngModel)]="configCommands" 
+          matInput
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="50"
+        ></textarea> 
+        <button mat-button color="primary" *ngIf="configCommands" matSuffix mat-icon-button aria-label="Clear" (click)="configCommands=''">
+          <mat-icon>close</mat-icon>
+        </button>
+        <mat-hint>Send these commands as LoRaWAN downlink messages to FPort=2 of the device.</mat-hint>
+      </mat-form-field>
+
+    </mat-card-content>
+</mat-card>
+

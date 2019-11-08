@@ -19,114 +19,142 @@
       <mat-label>Parameter IDs </mat-label>
       <mat-select [formControl]="selectedParameterIDs" multiple>
 
-          <mat-optgroup label="Main op mode params">
-              <mat-option value="0">
-                <span [matTooltip]="C_ParamDescriptions.UL_PERIOD.description">
-                  UL_PERIOD
-                </span>
-              </mat-option>
-              <mat-option value="1">
-                <span [matTooltip]="C_ParamDescriptions.LORA_PERIOD.description">
-                  LORA_PERIOD
-                </span>
-              </mat-option>
-              <mat-option value="5">
-                <span [matTooltip]="C_ParamDescriptions.GEOLOC_SENSOR.description">
-                  GEOLOC_SENSOR
-                </span>
-              </mat-option>
-              <mat-option value="8">
-                <span [matTooltip]="C_ParamDescriptions.MOTION_NB_POS.description">
-                  MOTION_NB_POS
-                </span>
-              </mat-option>
-            </mat-optgroup>
-    
-            <mat-optgroup label="Side op mode params">
-              <mat-option value="3">
-                <span [matTooltip]="C_ParamDescriptions.PERIODIC_POS_PERIOD.description">
-                  PERIODIC_POS_PERIOD
-                </span>
-              </mat-option>
-              <mat-option value="6">
-                <span [matTooltip]="C_ParamDescriptions.GEOLOC_METHOD.description">
-                  GEOLOC_METHOD
-                </span>
-              </mat-option>
-            </mat-optgroup>
-    
-            <mat-optgroup label="GPS/LPGPS params">
-              <mat-option value="9" >
-                <span [matTooltip]="C_ParamDescriptions.GPS_TIMEOUT.description">
-                  GPS_TIMEOUT
-                </span>
-              </mat-option>
-              <mat-option value="11">
-                <span [matTooltip]="C_ParamDescriptions.GPS_EHPE.description">
-                  GPS_EHPE
-                </span>
-              </mat-option>
-              <mat-option value="12">
-                <span [matTooltip]="C_ParamDescriptions.GPS_CONVERGENCE.description">
-                  GPS_CONVERGENCE
-                </span>
-              </mat-option>
-              <mat-option value="17">
-                <span [matTooltip]="C_ParamDescriptions.GPS_STANDBY_TIMEOUT.description">
-                  GPS_STANDBY_TIMEOUT
-                </span>
-              </mat-option>
-              <mat-option value="10">
-                <span [matTooltip]="C_ParamDescriptions.AGPS_TIMEOUT.description">
-                  AGPS_TIMEOUT
-                </span>
-              </mat-option>
-            </mat-optgroup>
-    
-            <mat-optgroup label="LoRa params">
-              <mat-option value="14">
-                <span [matTooltip]="C_ParamDescriptions.TRANSMIT_STRAT.description">
-                  TRANSMIT_STRAT
-                </span>
-              </mat-option>
-              <mat-option value="18">
-                <span [matTooltip]="C_ParamDescriptions.CONFIRMED_UL_BITMAP.description">
-                  CONFIRMED_UL_BITMAP
-                </span>
-              </mat-option>
-              <mat-option value="19">
-                <span [matTooltip]="C_ParamDescriptions.CONFIRMED_UL_RETRY.description">
-                  CONFIRMED_UL_RETRY
-                </span>
-              </mat-option>
-            </mat-optgroup>
-    
-            <mat-optgroup label="BLE params">
-              <mat-option value="15">
-                <span [matTooltip]="C_ParamDescriptions.BLE_BEACON_COUNT.description">
-                  BLE_BEACON_COUNT
-                </span>
-              </mat-option>
-              <mat-option value="16">
-                <span [matTooltip]="C_ParamDescriptions.BLE_BEACON_TIMEOUT.description">
-                  BLE_BEACON_TIMEOUT
-                </span>
-              </mat-option>
-            </mat-optgroup>
-    
-            <mat-optgroup label="Misc params">
-              <mat-option value="2">
-                <span [matTooltip]="C_ParamDescriptions.PW_STAT_PERIOD.description">
-                  PW_STAT_PERIOD
-                </span>
-              </mat-option>
-              <mat-option value="13">
-                <span [matTooltip]="C_ParamDescriptions.CONFIG_FLAGS.description">
-                  CONFIG_FLAGS
-                </span>
-              </mat-option>
-            </mat-optgroup>
-          
+        <mat-optgroup label="Main op mode params">
+          <mat-option value="0">
+            <span [matTooltip]="C_ParamDescriptions.UL_PERIOD.description">
+              UL_PERIOD
+            </span>
+          </mat-option>
+          <mat-option value="1">
+            <span [matTooltip]="C_ParamDescriptions.LORA_PERIOD.description">
+              LORA_PERIOD
+            </span>
+          </mat-option>
+          <mat-option value="5">
+            <span [matTooltip]="C_ParamDescriptions.GEOLOC_SENSOR.description">
+              GEOLOC_SENSOR
+            </span>
+          </mat-option>
+          <mat-option value="8">
+            <span [matTooltip]="C_ParamDescriptions.MOTION_NB_POS.description">
+              MOTION_NB_POS
+            </span>
+          </mat-option>
+          <mat-option value="23">
+            <span [matTooltip]="C_ParamDescriptions.MOTION_DURATION.description">
+              MOTION_DURATION
+            </span>
+          </mat-option>
+        </mat-optgroup>
+  
+        <mat-optgroup label="Side op mode params">
+          <mat-option value="3">
+            <span [matTooltip]="C_ParamDescriptions.PERIODIC_POS_PERIOD.description">
+              PERIODIC_POS_PERIOD
+            </span>
+          </mat-option>
+          <mat-option value="6">
+            <span [matTooltip]="C_ParamDescriptions.GEOLOC_METHOD.description">
+              GEOLOC_METHOD
+            </span>
+          </mat-option>
+          <mat-option value="22">
+            <span [matTooltip]="C_ParamDescriptions.PERIODIC_ACTIVITY_PERIOD.description">
+              PERIODIC_ACTIVITY_PERIOD
+            </span>
+          </mat-option>
+        </mat-optgroup>
+
+        <mat-optgroup label="GPS/LPGPS params">
+          <mat-option value="9" >
+            <span [matTooltip]="C_ParamDescriptions.GPS_TIMEOUT.description">
+              GPS_TIMEOUT
+            </span>
+          </mat-option>
+          <mat-option value="11">
+            <span [matTooltip]="C_ParamDescriptions.GPS_EHPE.description">
+              GPS_EHPE
+            </span>
+          </mat-option>
+          <mat-option value="12">
+            <span [matTooltip]="C_ParamDescriptions.GPS_CONVERGENCE.description">
+              GPS_CONVERGENCE
+            </span>
+          </mat-option>
+          <mat-option value="17">
+            <span [matTooltip]="C_ParamDescriptions.GPS_STANDBY_TIMEOUT.description">
+              GPS_STANDBY_TIMEOUT
+            </span>
+          </mat-option>
+          <mat-option value="10">
+            <span [matTooltip]="C_ParamDescriptions.AGPS_TIMEOUT.description">
+              AGPS_TIMEOUT
+            </span>
+          </mat-option>
+        </mat-optgroup>
+
+        <mat-optgroup label="LoRa params">
+          <mat-option value="14">
+            <span [matTooltip]="C_ParamDescriptions.TRANSMIT_STRAT.description">
+              TRANSMIT_STRAT
+            </span>
+          </mat-option>
+          <mat-option value="18">
+            <span [matTooltip]="C_ParamDescriptions.CONFIRMED_UL_BITMAP.description">
+              CONFIRMED_UL_BITMAP
+            </span>
+          </mat-option>
+          <mat-option value="19">
+            <span [matTooltip]="C_ParamDescriptions.CONFIRMED_UL_RETRY.description">
+              CONFIRMED_UL_RETRY
+            </span>
+          </mat-option>
+        </mat-optgroup>
+
+        <mat-optgroup label="BLE params">
+          <mat-option value="15">
+            <span [matTooltip]="C_ParamDescriptions.BLE_BEACON_COUNT.description">
+              BLE_BEACON_COUNT
+            </span>
+          </mat-option>
+          <mat-option value="16">
+            <span [matTooltip]="C_ParamDescriptions.BLE_BEACON_TIMEOUT.description">
+              BLE_BEACON_TIMEOUT
+            </span>
+          </mat-option>
+          <mat-option value="26">
+            <span [matTooltip]="C_ParamDescriptions.BLE_RSSI_FILTER.description">
+              BLE_RSSI_FILTER
+            </span>
+          </mat-option>
+        </mat-optgroup>
+
+        <mat-optgroup label="Misc params">
+          <mat-option value="2">
+            <span [matTooltip]="C_ParamDescriptions.PW_STAT_PERIOD.description">
+              PW_STAT_PERIOD
+            </span>
+          </mat-option>
+          <mat-option value="13">
+            <span [matTooltip]="C_ParamDescriptions.CONFIG_FLAGS.description">
+              CONFIG_FLAGS
+            </span>
+          </mat-option>
+        </mat-optgroup>
+
+        <mat-optgroup label="Accelerometer params">
+          <mat-option value="20" >
+            <span [matTooltip]="C_ParamDescriptions.MOTION_SENSITIVITY.description">
+              MOTION_SENSITIVITY
+            </span>
+          </mat-option>
+      
+          <mat-option value="21">
+            <span [matTooltip]="C_ParamDescriptions.SHOCK_DETECTION.description">
+              SHOCK_DETECTION
+            </span>
+          </mat-option>
+        </mat-optgroup>
       </mat-select>
     </mat-form-field>
     <br />
@@ -137,7 +165,8 @@
         selectedParameterIDs.value.includes(E_ParameterId.UL_PERIOD.toString(10)) ||
         selectedParameterIDs.value.includes(E_ParameterId.LORA_PERIOD.toString(10)) ||
         selectedParameterIDs.value.includes(E_ParameterId.GEOLOC_SENSOR.toString(10)) ||
-        selectedParameterIDs.value.includes(E_ParameterId.MOTION_NB_POS.toString(10))
+        selectedParameterIDs.value.includes(E_ParameterId.MOTION_NB_POS.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.MOTION_DURATION.toString(10))
       )"
       class="third"
     >
@@ -176,13 +205,21 @@
           >
           <br />
         </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.MOTION_DURATION.toString(10))">
+          <input matInput type="text" placeholder="MOTION_DURATION" 
+            [(ngModel)]="parameterValues[E_ParameterId.MOTION_DURATION]"
+            [matTooltip]="C_ParamDescriptions.MOTION_DURATION.description"
+          >
+          <br />
+        </mat-form-field>
       </mat-card-content>
     </mat-card>
 
     <mat-card 
       *ngIf="selectedParameterIDs.value && ( 
         selectedParameterIDs.value.includes(E_ParameterId.PERIODIC_POS_PERIOD.toString(10)) ||
-        selectedParameterIDs.value.includes(E_ParameterId.GEOLOC_METHOD.toString(10))
+        selectedParameterIDs.value.includes(E_ParameterId.GEOLOC_METHOD.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.PERIODIC_ACTIVITY_PERIOD.toString(10))
       )"
       class="third"
     >
@@ -205,6 +242,13 @@
               {{E_Param_GeolocMethod[k]}}
             </mat-option>
           </mat-select>
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.PERIODIC_ACTIVITY_PERIOD.toString(10))">
+          <input matInput type="text" placeholder="PERIODIC_ACTIVITY_PERIOD" 
+            [(ngModel)]="parameterValues[E_ParameterId.PERIODIC_ACTIVITY_PERIOD]"
+            [matTooltip]="C_ParamDescriptions.PERIODIC_ACTIVITY_PERIOD.description"
+          >
           <br />
         </mat-form-field>
       </mat-card-content>
@@ -300,13 +344,14 @@
             <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP].HeartBeat">
               HeartBeat
             </mat-checkbox><br />
-            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP].ActivityOrConfig">
-              ActivityOrConfig
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP].ActivityConfigShock">
+              ActivityConfigShock
             </mat-checkbox><br />
             <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIRMED_UL_BITMAP].Shutdown">
               Shutdown
             </mat-checkbox><br />
           </section>
+          <br />
         </div>
 
         <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.CONFIRMED_UL_RETRY.toString(10))">
@@ -322,7 +367,8 @@
     <mat-card 
       *ngIf="selectedParameterIDs.value && ( 
         selectedParameterIDs.value.includes(E_ParameterId.BLE_BEACON_COUNT.toString(10)) ||
-        selectedParameterIDs.value.includes(E_ParameterId.BLE_BEACON_TIMEOUT.toString(10))
+        selectedParameterIDs.value.includes(E_ParameterId.BLE_BEACON_TIMEOUT.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.BLE_RSSI_FILTER.toString(10))
       )"
       class="third"
     >
@@ -342,13 +388,22 @@
           >
           <br />
         </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.BLE_RSSI_FILTER.toString(10))">
+          <input matInput type="text" placeholder="BLE_RSSI_FILTER" 
+            [(ngModel)]="parameterValues[E_ParameterId.BLE_RSSI_FILTER]"
+            [matTooltip]="C_ParamDescriptions.BLE_RSSI_FILTER.description"
+          >
+          <br />
+        </mat-form-field>
       </mat-card-content>
     </mat-card>
 
     <mat-card 
       *ngIf="selectedParameterIDs.value && ( 
         selectedParameterIDs.value.includes(E_ParameterId.PW_STAT_PERIOD.toString(10)) ||
-        selectedParameterIDs.value.includes(E_ParameterId.CONFIG_FLAGS.toString(10))
+        selectedParameterIDs.value.includes(E_ParameterId.CONFIG_FLAGS.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.MOTION_SENSITIVITY.toString(10)) ||
+        selectedParameterIDs.value.includes(E_ParameterId.SHOCK_DETECTION.toString(10))
       )"
       class="third"
     >
@@ -366,6 +421,20 @@
             CONFIG_FLAGS
           </mat-label>
           <section>
+
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].AsymmetricBLEPairingRejected">
+              AsymmetricBLEPairingRejected
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].NewJoinReqOnLeavingOffMode">
+              NewJoinReqOnLeavingOffMode
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].MotionEndMessageEnabled">
+              MotionEndMessageEnabled
+            </mat-checkbox><br />
+            <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].MotionStartMessageEnabled">
+              MotionStartMessageEnabled
+            </mat-checkbox><br />
+
             <mat-checkbox [(ngModel)]="parameterValues[E_ParameterId.CONFIG_FLAGS].LedBlinksOnGPSFix">
               LedBlinksOnGPSFix
             </mat-checkbox><br />
@@ -391,10 +460,25 @@
                 FramePendingMechanismActive
             </mat-checkbox><br />
           </section>
+          <br />
         </div>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.MOTION_SENSITIVITY.toString(10))">
+          <input matInput type="text" placeholder="MOTION_SENSITIVITY" 
+            [(ngModel)]="parameterValues[E_ParameterId.MOTION_SENSITIVITY]"
+            [matTooltip]="C_ParamDescriptions.MOTION_SENSITIVITY.description"
+          >
+          <br />
+        </mat-form-field>
+        <mat-form-field *ngIf="selectedParameterIDs.value.includes(E_ParameterId.SHOCK_DETECTION.toString(10))">
+          <input matInput type="text" placeholder="SHOCK_DETECTION" 
+            [(ngModel)]="parameterValues[E_ParameterId.SHOCK_DETECTION]"
+            [matTooltip]="C_ParamDescriptions.SHOCK_DETECTION.description"
+          >
+          <br />
+        </mat-form-field>
       </mat-card-content>
     </mat-card>
-
+ 
   </mat-card-content>
 </mat-card>
 

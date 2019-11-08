@@ -1,65 +1,47 @@
 <mat-card class="first">
-  <mat-card-title>Decode uplink message</mat-card-title>
+  <mat-card-title>Decode a device message</mat-card-title>
+</mat-card>
+
+<mat-card class="first">
+
   <mat-card-content>
 
+    <!-- Direction -->
     <mat-card class="second">
-
-      <mat-form-field>
-        <input [(ngModel)]="uplinkPayloadHex" matInput placeholder="UplinkPayloadHex" />
-      </mat-form-field>
-
-
+      <mat-label>Direction:</mat-label>
+      <div style="margin: 10px 10px 5px 10px;">
+        <mat-radio-group aria-label="Select an option" [(ngModel)]="direction" (change)="dirChange()">
+            <mat-radio-button value="uplink">Uplink</mat-radio-button>&nbsp;&nbsp;
+            <mat-radio-button value="downlink">Downlink</mat-radio-button><br />
+        </mat-radio-group>
+      </div>
     </mat-card>
-    
+
     <mat-card class="second">
 
-      <button mat-stroked-button color="primary" (click)="decodeUplink()" class="btn-xcode">Decode</button>
       <mat-form-field>
-        <mat-label>Decoded Uplink Message</mat-label>
-        <textarea readonly
-          [(ngModel)]="decodedUplink" 
-          matInput
-          cdkTextareaAutosize
-          #autosize="cdkTextareaAutosize"
-          cdkAutosizeMinRows="1"
-          cdkAutosizeMaxRows="50"
-        ></textarea>
-        <button mat-button color="primary" *ngIf="decodedUplink" matSuffix mat-icon-button aria-label="Clear" (click)="decodedUplink=''">
+        <input [(ngModel)]="payloadHex" matInput placeholder="payloadHex" />
+        <button mat-button *ngIf="payloadHex" matSuffix mat-icon-button aria-label="Clear" (click)="payloadHex=''">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
 
     </mat-card>
-
-  </mat-card-content>
-</mat-card>
-
-<mat-card class="first">
-  <mat-card-title>Decode downlink message</mat-card-title>
-  <mat-card-content>
-
+    
     <mat-card class="second">
 
+      <button mat-stroked-button color="primary" (click)="decode()" class="btn-xcode">Decode</button>
       <mat-form-field>
-        <input [(ngModel)]="downlinkPayloadHex" matInput placeholder="DownlinkPayloadHex" />
-      </mat-form-field>
-
-    </mat-card>
-
-    <mat-card class="second">
-
-      <button mat-stroked-button color="primary" (click)="decodeDownlink()" class="btn-xcode">Decode</button>
-      <mat-form-field>
-        <mat-label>Decoded Downlink Message</mat-label>
+        <mat-label>Decoded Message</mat-label>
         <textarea readonly
-          [(ngModel)]="decodedDownlink" 
+          [(ngModel)]="decodedMessage" 
           matInput
           cdkTextareaAutosize
           #autosize="cdkTextareaAutosize"
           cdkAutosizeMinRows="1"
           cdkAutosizeMaxRows="50"
         ></textarea>
-        <button mat-button *ngIf="decodedDownlink" matSuffix mat-icon-button aria-label="Clear" (click)="decodedDownlink=''">
+        <button mat-button color="primary" *ngIf="decodedMessage" matSuffix mat-icon-button aria-label="Clear" (click)="decodedMessage=''">
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>

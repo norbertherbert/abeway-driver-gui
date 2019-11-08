@@ -8,7 +8,7 @@
         matTooltip="A random 4 bits number that is sent back to the sender as acknowledgement of the downlink command."
       >
         <mat-option 
-          *ngFor="let v of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]" 
+          *ngFor="let v of [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,20,21,22,23,26]" 
           [value]=v
         >{{"0x"+v.toString(16)}}</mat-option>
       </mat-select>
@@ -39,6 +39,11 @@
               MOTION_NB_POS
             </span>
           </mat-option>
+          <mat-option value="23">
+            <span [matTooltip]="C_ParamDescriptions.MOTION_DURATION.description">
+              MOTION_DURATION
+            </span>
+          </mat-option>
         </mat-optgroup>
 
         <mat-optgroup label="Side op mode params">
@@ -50,6 +55,11 @@
           <mat-option value="6">
             <span [matTooltip]="C_ParamDescriptions.GEOLOC_METHOD.description">
               GEOLOC_METHOD
+            </span>
+          </mat-option>
+          <mat-option value="22">
+            <span [matTooltip]="C_ParamDescriptions.PERIODIC_ACTIVITY_PERIOD.description">
+              PERIODIC_ACTIVITY_PERIOD
             </span>
           </mat-option>
         </mat-optgroup>
@@ -111,6 +121,11 @@
               BLE_BEACON_TIMEOUT
             </span>
           </mat-option>
+          <mat-option value="26">
+            <span [matTooltip]="C_ParamDescriptions.BLE_RSSI_FILTER.description">
+              BLE_RSSI_FILTER
+            </span>
+          </mat-option>
         </mat-optgroup>
 
         <mat-optgroup label="Misc params">
@@ -135,7 +150,19 @@
               FIRMWARE_VERSION
             </span>
           </mat-option>
+        </mat-optgroup>
 
+        <mat-optgroup label="Accelerometer params">
+          <mat-option value="20" >
+            <span [matTooltip]="C_ParamDescriptions.MOTION_SENSITIVITY.description">
+              MOTION_SENSITIVITY
+            </span>
+          </mat-option>
+          <mat-option value="21">
+            <span [matTooltip]="C_ParamDescriptions.SHOCK_DETECTION.description">
+              SHOCK_DETECTION
+            </span>
+          </mat-option>
         </mat-optgroup>
 
       </mat-select>

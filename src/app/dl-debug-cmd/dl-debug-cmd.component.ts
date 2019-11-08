@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   CPDU_DlHeaderShort, E_DPDUType,
-  DPDU_DebugCmd,
+  DPDU_DebugCmd, E_DebugCmd,
 } from 'abeeway-driver';
 
 
@@ -13,11 +13,18 @@ import {
 export class DlDebugCmdComponent implements OnInit {
 
   debugCmdAckToken = Math.floor(Math.random() * 16);
+
+  E_DebugCmd: typeof E_DebugCmd = E_DebugCmd;
+  debugCmdKeys: any[];
+  selectedDebugCmd = '1';
+
   debugCmdEncoded = '';
 
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.debugCmdKeys = Object.keys(E_DebugCmd).filter(k => typeof E_DebugCmd[k as any] === 'string' );
+  }
 
   debugCmdEncode(): void {
     try {
@@ -27,6 +34,7 @@ export class DlDebugCmdComponent implements OnInit {
             ackToken: this.debugCmdAckToken,
             optData:  0x0,
         }),
+        debugCmd:     parseInt(this.selectedDebugCmd, 10),
       });
       this.debugCmdEncoded = pdu.toHexString();
     } catch (err) {

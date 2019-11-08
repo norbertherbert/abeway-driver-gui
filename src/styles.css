@@ -63,3 +63,20 @@ mat-card mat-form-field {
 button.btn-xcode {
   margin-bottom: 12px;
 }
+
+
+.explanation {
+  /* border: 1px solid; */ 
+  margin: 0px 0px 10px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+.explanation ul {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 15px;
+}
+
+.sideop-title {
+  display: flex; 
+  justify-content:space-between;
+}
